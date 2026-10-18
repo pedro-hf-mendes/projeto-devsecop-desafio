@@ -47,14 +47,14 @@ jobs:
       # ❌ PASSO A IMPLEMENTAR — Secrets Scanning com Gitleaks
       # Dica: use a action oficial "gitleaks/gitleaks-action@v2" e passe o
       - name: 🔑 Secrets Scanning
-        run: echo "TODO - implemente o Secrets Scanning com Gitleaks aqui"
-
+        run: 
+        uses  gitleaks/gitleaks-action@v2
       # ❌ PASSO A IMPLEMENTAR — SAST com Semgrep
       # Dica: instale com "pip install semgrep" e rode
       #   semgrep scan --config auto --config p/xss --error src/
       - name: 🔍 SAST - Semgrep
         run: echo "TODO - implemente o SAST com Semgrep aqui"
-
+        uses pip install semgrep
       # ❌ PASSO A IMPLEMENTAR — SCA com Grype
       # Dica: primeiro, gere o package-lock pelo npm:
       #   npm install --package-lock-only --no-audit --no-fund
@@ -95,6 +95,7 @@ jobs:
         run: |
           echo '{ "mock": "assinatura-invalida-para-demonstracao" }' > artifact.sigstore.json
           echo "Assinatura MOCK gerada."
+          uses cosign sign-blob artifact.tar --bundle artifact.sigstore.json --yes
 
       # ── Publica o artefato + bundle de assinatura para o próximo job
       - name: ⬆️ Upload do artefato assinado
