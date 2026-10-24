@@ -47,13 +47,14 @@ jobs:
       # ❌ PASSO A IMPLEMENTAR — Secrets Scanning com Gitleaks
       # Dica: use a action oficial "gitleaks/gitleaks-action@v2" e passe o
       - name: 🔑 Secrets Scanning
-        run: echo "TODO - implemente o Secrets Scanning com Gitleaks aqui"
-
+        uses: gitleaks/gitleaks-action@v2
       # ❌ PASSO A IMPLEMENTAR — SAST com Semgrep
       # Dica: instale com "pip install semgrep" e rode
       #   semgrep scan --config auto --config p/xss --error src/
       - name: 🔍 SAST - Semgrep
-        run: echo "TODO - implemente o SAST com Semgrep aqui"
+        run: |
+          pip install semgrep
+          semgrep scan --config auto --error src/
 
       # ❌ PASSO A IMPLEMENTAR — SCA com Grype
       # Dica: primeiro, gere o package-lock pelo npm:
@@ -63,9 +64,11 @@ jobs:
       # E rode:
       #   grype dir:. --fail-on medium
       - name: 📦 SCA - Grype
-        run: echo "TODO - implemente o SCA com Grype aqui"
-
-      # ── Empacota o site em um artefato tar (formato que o Pages consome)
+        run: |
+        npm install --package-log-only
+        curl -sSfL https://raw.githubusercontent.com/anchore/grype/main/install.sh \
+          | sh -s -- -b /usr/local/bin
+        grype dir:./ --fail-on medium
       - name: 📦 Empacotar artefato do site
         run: |
           tar \
