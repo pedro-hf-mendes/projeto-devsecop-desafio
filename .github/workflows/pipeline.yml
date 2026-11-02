@@ -64,7 +64,11 @@ jobs:
       # E rode:
       #   grype dir:. --fail-on medium
       - name: 📦 SCA - Grype
-        run: echo "TODO - implemente o SCA com Grype aqui"
+        run: |
+          npm install --package-lock-only
+          curl -sSfL https://raw.githubusercontent.com/anchore/grype/main/install.sh \
+            | sh -s -- -b /usr/local/bin
+          grype dir:./ --fail-on medium
 
       # ── Empacota o site em um artefato tar (formato que o Pages consome)
       - name: 📦 Empacotar artefato do site
